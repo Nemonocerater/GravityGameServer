@@ -1,0 +1,15 @@
+{
+	"dependencies": {
+		"express": "4.x",
+		"body-parser": "1.8.x",
+		"redis": "0.12.x",
+		"mongodb": "1.4.x",
+		"agoragames-leaderboard": "1.8.x"
+	},
+	"devDependencies": {
+		"mocha": "*"
+	},
+	"scripts": {
+		"test": "mocha || true"
+	}
+}
