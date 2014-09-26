@@ -24,9 +24,10 @@ describe('leaderboard-rest-api-test', function () {
 
 		it('Submits a Score', function (done) {
 			var user = "Some_User";
-			var score = 34;
+			var oldScore = 11;
+			var newScore = 34;
 
-			var url = '/leaderboard/' + user + "/" + score;
+			var url = '/leaderboard/' + user + "/" + oldScore + "/" + newScore;
 
 			sendRequest('POST', url, {}, function (res) {
 				// If there is no on data function then the
@@ -42,10 +43,12 @@ describe('leaderboard-rest-api-test', function () {
 	});
 
 	describe('GetGlobalScores', function () {
+		
+		var user = 'test_user';
 
 		it('Get Global Scores on page 0', function (done) {
 			var page = 0;
-			var url = '/leaderboard/global/' + page;
+			var url = '/leaderboard/global/' + user + '/' + page;
 
 			sendRequest('GET', url, {}, function (res) {
 				res.on('data', function (chunk) {
@@ -61,7 +64,7 @@ describe('leaderboard-rest-api-test', function () {
 
 		it('Get Different Page of data', function (done) {
 			var page = 1;
-			var url = '/leaderboard/global/' + page;
+			var url = '/leaderboard/global/' + user + '/' + page;
 
 			sendRequest('GET', url, {}, function (res) {
 				res.on('data', function (chunk) {

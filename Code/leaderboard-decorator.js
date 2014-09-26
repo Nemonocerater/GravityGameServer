@@ -2,11 +2,12 @@ var express = require('express');
 
 function decorate (app, leaderboard_connector) {
 
-	app.post('/leaderboard/:user/:score', function submitScore(req, res) {
+	app.post('/leaderboard/:user/:oldScore/:newScore', function submitScore(req, res) {
 		var user = req.params.user;
-		var score = parseInt(req.params.score);
+		var oldScore = parseInt(req.params.oldScore);
+		var newScore = parseInt(req.params.newScore);
 
-		leaderboard_connector.submitScore (user, score, function (err) {
+		leaderboard_connector.submitScore (user, oldScore, newScore, function (err) {
 			if (err) {
 				res.end(err);
 			}
@@ -14,10 +15,11 @@ function decorate (app, leaderboard_connector) {
 		});
 	});
 
-	app.get('/leaderboard/global/:page', function getGlobalScores(req, res) {
+	app.get('/leaderboard/global/:user/:page', function getGlobalScores(req, res) {
+		var user = req.params.user;
 		var page = parseInt(req.params.page);
 
-		leaderboard_connector.getGlobalScores (page, function (err, data) {
+		leaderboard_connector.getGlobalScores (user, page, function (err, data) {
 			if (err) {
 				res.end(err);
 			}

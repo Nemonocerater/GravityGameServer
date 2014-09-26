@@ -4,18 +4,15 @@ function LeaderboardConnector() {
 	this.leaderboard = new Tie_Leaderboard ("gravity_game");
 }
 
-LeaderboardConnector.prototype.submitScore = function (user, score, callback) {
-	this.leaderboard.rankMemberIf (newScoreIsLarger, user, score, null, function (reply) {
+LeaderboardConnector.prototype.submitScore = function (user, oldScore, newScore, callback) {
+	this.leaderboard.rankMemberIf (newScoreIsLarger, user, newScore, oldScore, null, function (reply) {
 		callback(null);
 	});
 };
 
 function newScoreIsLarger (member, currentScore, score, memberData, leaderboardOptions) {
-	console.log("called");
 	if (score == null) return true;
-	console.log(score + " " + currentScore);
 	if (score > currentScore) return true;
-	console.log(score > currentScore);
 	return false;
 }
 
