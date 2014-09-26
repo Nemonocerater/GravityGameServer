@@ -1,0 +1,3 @@
+[submodule "Code/leaderboard-coffeescript"]
+	path = Code/leaderboard-coffeescript
+	url = git@github.com:Nemonocerater/leaderboard-coffeescript.git
