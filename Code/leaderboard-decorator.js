@@ -10,6 +10,7 @@ function decorate (app, leaderboard_connector) {
 		leaderboard_connector.submitScore (user, oldScore, newScore, function (err) {
 			if (err) {
 				res.end(err);
+				return;
 			}
 			res.end("Success");
 		});
@@ -22,6 +23,7 @@ function decorate (app, leaderboard_connector) {
 		leaderboard_connector.getGlobalScores (user, page, function (err, data) {
 			if (err) {
 				res.end(err);
+				return;
 			}
 			res.end(JSON.stringify(data));
 		});
@@ -31,6 +33,7 @@ function decorate (app, leaderboard_connector) {
 		leaderboard_connector.getFriendsScores (function (err, data) {
 			if (err) {
 				res.end(err);
+				return;
 			}
 			res.end(JSON.stringify(data));
 		});

@@ -16,10 +16,27 @@ function newScoreIsLarger (member, currentScore, score, memberData, leaderboardO
 	return false;
 }
 
-LeaderboardConnector.prototype.getGlobalScores = function (page, callback) {
-	console.log('get global scores');
-	callback(null, []);
+LeaderboardConnector.prototype.getGlobalScores = function (user, pageOffset, callback) {
+	var connector = this;
+	this.leaderboard.rankFor (user, function (rank) {
+		console.log(rank);
+		if (rank) {
+			getGlobalPage (connector.leaderboard, rank, pageOffset, callback);
+		} else {
+			// get the first page of the leaderboard
+			// since they aren't in the database yet
+			getGlobalPage (connector.leaderboard, 1, 0, callback);
+		}
+	});
 };
+
+function getGlobalPage (leaderboard, rank, pageOffset, callback) {
+	var basePage = Math.floor (rank / leaderboard.pageSize);
+	var page = basePage + pageOffset;
+	leaderboard.leaders (page, {}, function (leaders) {
+		callback(null, leaders);
+	});
+}
 
 LeaderboardConnector.prototype.getFriendsScores = function (callback) {
 	console.log('get friends scores');
