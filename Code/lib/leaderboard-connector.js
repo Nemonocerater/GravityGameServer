@@ -1,7 +1,10 @@
-var Tie_Leaderboard = require('agoragames-leaderboard/lib/tie_ranking_leaderboard.js');
+var Tie_Leaderboard = require('../leaderboard-coffeescript/lib/tie_ranking_leaderboard.js');
 
-function LeaderboardConnector() {
-	this.leaderboard = new Tie_Leaderboard ("gravity_game");
+function LeaderboardConnector (pageSize) {
+	pageSize = pageSize || 25;
+	this.leaderboard = new Tie_Leaderboard ("gravity_game", {
+			'pageSize': pageSize
+		});
 }
 
 LeaderboardConnector.prototype.submitScore = function (user, oldScore, newScore, callback) {
@@ -19,7 +22,6 @@ function newScoreIsLarger (member, currentScore, score, memberData, leaderboardO
 LeaderboardConnector.prototype.getGlobalScores = function (user, pageOffset, callback) {
 	var connector = this;
 	this.leaderboard.rankFor (user, function (rank) {
-		console.log(rank);
 		if (rank) {
 			getGlobalPage (connector.leaderboard, rank, pageOffset, callback);
 		} else {
@@ -31,8 +33,8 @@ LeaderboardConnector.prototype.getGlobalScores = function (user, pageOffset, cal
 };
 
 function getGlobalPage (leaderboard, rank, pageOffset, callback) {
-	var basePage = Math.floor (rank / leaderboard.pageSize);
-	var page = basePage + pageOffset;
+	var basePage = Math.ceil (rank / leaderboard.pageSize) - 1;
+	var page = basePage + pageOffset + 1;
 	leaderboard.leaders (page, {}, function (leaders) {
 		callback(null, leaders);
 	});
